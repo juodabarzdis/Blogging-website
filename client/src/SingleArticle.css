@@ -1,0 +1,13 @@
+.single-article {
+  margin: 40px auto;
+  max-width: 1080px;
+}
+
+.article-image {
+  float: left;
+  margin: 0 20px 20px 0;
+}
+
+.wrapper {
+  margin: auto;
+}
