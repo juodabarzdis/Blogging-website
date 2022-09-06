@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize";
 import Posts from "../model/posts.js";
 import Users from "../model/users.js";
+import Comments from "../model/comments.js";
 import mysql from "mysql2/promise";
 
 const database = {};
@@ -37,8 +38,17 @@ try {
   // Create table // per egza keiciam tik sita
   database.Posts = Posts(sequelize);
   database.Users = Users(sequelize);
+  database.Comments = Comments(sequelize);
 
-  await sequelize.sync({ alter: true });
+  database.Posts.hasMany(database.Comments); // 1 post turi daug komentaru
+
+  database.Users.hasMany(database.Posts, {
+    onDelete: "RESTRICT",
+    onUpdate: "RESTRICT",
+  }); // reliacija, svarbu, kad eilute butu virs synco.
+  database.Posts.belongsTo(database.Users);
+
+  await sequelize.sync({ alter: true }); //cia kuriame serveri, darome reliacijas
 } catch {
   console.log("Error connecting to database");
 }

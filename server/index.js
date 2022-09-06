@@ -1,6 +1,7 @@
 import express from "express";
 import posts from "./controller/posts.js";
 import users from "./controller/users.js";
+import comments from "./controller/comments.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import session from "express-session";
@@ -36,5 +37,7 @@ app.use(
 
 app.use("/api/posts/", posts);
 app.use("/api/users/", users);
+app.use("/api/comments", comments);
+app.use("/uploads", express.static("uploads"));
 
 app.listen(3000);

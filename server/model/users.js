@@ -14,6 +14,11 @@ const Users = (sequelize) => {
       type: DataTypes.STRING, //=VARCHAR(255)
       allowNull: false,
     },
+    role: {
+      type: DataTypes.INTEGER, //=INT
+      allowNull: false,
+      defaultValue: 0,
+    },
   };
   return sequelize.define("users", Schema);
 };
