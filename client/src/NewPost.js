@@ -5,6 +5,8 @@ import "./NewPost.css";
 import Axios from "axios";
 
 const NewPost = () => {
+  const navigate = useNavigate();
+
   const [postForm, setPostForm] = useState({
     title: "",
     content: "",
@@ -15,11 +17,27 @@ const NewPost = () => {
   });
 
   const handleForm = (e) => {
-    setPostForm({ ...postForm, [e.target.name]: e.target.value });
+    setPostForm({
+      ...postForm,
+      [e.target.name]:
+        e.target.name === "image" ? e.target.files[0] : e.target.value,
+    });
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    Axios.post("/api/posts/", postForm).then((resp) => console.log(resp));
+    // CHANGE
+    const form = new FormData();
+
+    for (const key in postForm) {
+      form.append(key, postForm[key]);
+    }
+    // CHANGE
+    Axios.post("/api/posts/", form).then((resp) =>
+      setTimeout(() => {
+        navigate("/");
+      }, 1000)
+    );
   };
 
   return (
@@ -79,7 +97,7 @@ const NewPost = () => {
               <label>Image</label>
             </div>
             <div>
-              <input type="text" name="image" onChange={(e) => handleForm(e)} />
+              <input type="file" name="image" onChange={(e) => handleForm(e)} />
             </div>
           </div>
           <div>

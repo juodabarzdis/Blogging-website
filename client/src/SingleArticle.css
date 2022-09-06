@@ -11,3 +11,9 @@
 .wrapper {
   margin: auto;
 }
+
+textarea {
+  resize: none;
+  width: 500px;
+  height: 60px;
+}

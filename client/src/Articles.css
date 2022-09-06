@@ -57,6 +57,18 @@ img {
   background-color: #000;
   color: #fff;
   padding: 5px 10px;
+  cursor: pointer;
+}
+
+.box-category:hover {
+  background-color: #fca311;
+  color: #000;
+}
+
+.under-article-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .box-title a {
@@ -85,13 +97,13 @@ img {
 }
 
 .alert {
-  margin: 0 auto;
-  max-width: 1400px;
+  margin: 20px auto;
+  max-width: 80rem;
   text-align: center;
   padding: 10px;
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+  background-color: #25a103;
+  color: #ffffff;
+  border: 1px solid #25a103;
   border-radius: 5px;
 }
 
@@ -101,4 +113,84 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.page-not-found {
+  font-size: 48px;
+  font-weight: 600;
+  text-align: center;
+  margin: 10rem auto;
+}
+
+.user-logged-out {
+  height: 30rem;
+}
+
+.edit-delete-buttons {
+  display: flex;
+  break-inside: avoid-column;
+}
+
+.edit-delete-buttons > div {
+  margin-left: 10px;
+}
+
+.search-nav {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 100%;
+  padding: 5px;
+  background-color: rgba(204, 204, 204, 0.284);
+}
+
+.filter {
+  margin-right: 10px;
+}
+
+.filter input {
+  padding: 8px;
+  border-radius: 0;
+  border: 1px solid #ccc;
+}
+
+.filter button {
+  padding: 9px 15px;
+  border-radius: 0;
+  border: 0;
+  background-color: #588157;
+  margin-right: 18rem;
+}
+
+.filter button:hover {
+  background-color: #4d6f4e;
+  cursor: pointer;
+}
+
+.category-input select {
+  margin-right: 2rem;
+  padding: 7px;
+}
+
+.category button:active {
+  background-color: #8db28e56;
+  transform: translateX(4px);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container .table {
+  margin: 5rem 0;
+  text-align: center;
+  width: 60%;
+}
+
+.table-row {
+  margin: 5px;
 }

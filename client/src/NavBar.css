@@ -34,7 +34,7 @@
 }
 
 .nav-right ul {
-  width: 350px;
+  width: 450px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -84,4 +84,14 @@
 
 .login:hover {
   color: #000000;
+}
+
+.user-greeting {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-right: 20px;
+  padding: 0px 5px 2px 5px;
+  color: #ffffff;
+  background-color: #fca311;
+  border-radius: 3px;
 }

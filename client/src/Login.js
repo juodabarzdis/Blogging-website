@@ -1,64 +1,50 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "./Register.css";
 import Axios from "axios";
+import MainContext from "./MainContext";
 
 const Login = () => {
+  const { setLoggedIn, setUserInfo } = useContext(MainContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [alert, setAlert] = useState("");
 
   const navigate = useNavigate();
-  // const [form, setForm] = useState({
-  //   email: "",
-  //   password: "",
-  // });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const user = { email, password };
     await Axios.post("api/users/login", user)
       .then((res) => {
-        console.log("response: ", res);
+        // localStorage.setItem("loggedIn", "true");
+        setUserInfo(res.data);
+        console.log(res);
+        setLoggedIn(true);
         setAlert(res.data.message);
-        console.log("alert: ", alert);
         setTimeout(() => {
-          navigate("/");
+          if (res.data.role === 1) {
+            return navigate("/admin");
+          } else {
+            navigate("/");
+          }
         }, 1000);
-
-        console.log(res.data);
       })
       .catch((err) => {
         console.log("error:", err);
+        setAlert(err.response.data);
       });
   };
 
-  // useEffect(() => {
-  //   fetch("http://localhost:3000/login", {
-  //     method: "GET",
-  //     credentials: "include",
-  //     withCredentials: true,
-  //   })
-  //     .then((res) => {
-  //       let username = req.cookies["sesssion"];
-  //       console.log("response: ", res);
-  //     })
-  //     .catch((err) => {
-  //       console.log("error:", err);
-  //     });
-  // }, []);
-
   return (
     <>
-      {" "}
-      {alert && <div className="alert">{alert}</div>}
       <div className="register">
         <div className="register-wrapper">
           <div className="left-side-wrapper">
-            <form action="" className="form">
+            <form action="" className="form" onSubmit={handleSubmit}>
+              {alert && <div className="alert">{alert}</div>}
               <div>
                 <h1>Login</h1>
                 <h2>Login to your account</h2>
@@ -81,11 +67,7 @@ const Login = () => {
                   setPassword(e.target.value);
                 }}
               />
-              <button
-                type="submit"
-                className="form-button"
-                onClick={handleSubmit}
-              >
+              <button type="submit" className="form-button">
                 Login
               </button>
               <button type="submit" className="form-button google">

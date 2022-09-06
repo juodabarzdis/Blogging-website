@@ -2,9 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Axios from "axios";
 
+// NEVEIKIA NUOTRAUKOS REDAGAVIMAS
+
 const EditPost = () => {
+  const [alert, setAlert] = useState("");
   const { id } = useParams();
-  const [post, setPost] = useState({
+  const [postForm, setPostForm] = useState({
     title: "",
     content: "",
     content_full: "",
@@ -14,12 +17,28 @@ const EditPost = () => {
   const navigate = useNavigate();
 
   const handleForm = (e) => {
-    setPost({ ...post, [e.target.name]: e.target.value });
+    setPostForm({
+      ...postForm,
+      [e.target.name]:
+        e.target.name === "image" ? e.target.files[0] : e.target.value,
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    Axios.put("/api/posts/edit/" + id, post).then((resp) => console.log(resp));
+
+    const form = new FormData();
+
+    for (const key in postForm) {
+      form.append(key, postForm[key]);
+    }
+
+    Axios.put("/api/posts/edit/" + id, form).then((res) => {
+      setTimeout(() => {
+        setAlert(res.data);
+        navigate("/");
+      }, 1000);
+    });
   };
 
   useEffect(() => {
@@ -29,7 +48,7 @@ const EditPost = () => {
           return navigate("/");
         } else {
           console.log(res);
-          setPost(res.data);
+          setPostForm(res.data);
         }
       })
       .catch((err) => {
@@ -42,8 +61,9 @@ const EditPost = () => {
     <div className="newPost-wrapper">
       <div className="newPost-container">
         <form onSubmit={(e) => handleSubmit(e)}>
+          {alert && <div className="alert">{alert}</div>}
           <div>
-            <h1>New Post</h1>
+            <h1>Edit Post</h1>
           </div>
           <div>
             <div>
@@ -54,7 +74,7 @@ const EditPost = () => {
                 type="text"
                 name="title"
                 onChange={(e) => handleForm(e)}
-                value={post.title}
+                value={postForm.title}
               />
             </div>
           </div>
@@ -67,7 +87,7 @@ const EditPost = () => {
                 type="text"
                 name="category"
                 onChange={(e) => handleForm(e)}
-                value={post.category}
+                value={postForm.category}
               />
             </div>
           </div>
@@ -80,7 +100,7 @@ const EditPost = () => {
                 type="text"
                 name="content"
                 onChange={(e) => handleForm(e)}
-                value={post.content}
+                value={postForm.content}
               />
             </div>
           </div>
@@ -93,7 +113,7 @@ const EditPost = () => {
                 type="text"
                 name="content_full"
                 onChange={(e) => handleForm(e)}
-                value={post.content_full}
+                value={postForm.content_full}
               />
             </div>
           </div>
@@ -103,10 +123,10 @@ const EditPost = () => {
             </div>
             <div>
               <input
-                type="text"
+                type="file"
                 name="image"
                 onChange={(e) => handleForm(e)}
-                value={post.image}
+                // value={postForm.image}
               />
             </div>
           </div>
